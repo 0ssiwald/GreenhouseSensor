@@ -1,0 +1,7 @@
+/pictures/
+__*
+__pycache__
+
+*.csv
+*.bak
+*.log
