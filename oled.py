@@ -5,8 +5,10 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 import adafruit_ssd1306
 
-class OledClass():
-
+class OledClass:
+    
+    def __init__(self, number_of_soilsensors):
+        self.number_of_soilsensors = number_of_soilsensors
     # Create the I2C interface.
     i2c = busio.I2C(SCL, SDA)
 
@@ -47,6 +49,9 @@ class OledClass():
     font = ImageFont.truetype(font_path, font_size)
 
     def printToScreen(self, temperature, humidity, moisture):
+        if self.number_of_soilsensors < 1 or self.number_of_soilsensors > 3:
+            raise ValueError("Invalid sensor index")
+            
         # Draw a black filled box to clear the image.
         self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
         
@@ -55,8 +60,12 @@ class OledClass():
         self.disp.image(self.image)
         self.disp.show()
         
-        # Write four lines of text.
-        self.draw.text((self.x, self.top),  "Soil: " + str(moisture) + "%", font=self.font, fill=255)
+        if self.number_of_soilsensors == 1 :
+            self.draw.text((self.x, self.top),  "Soil: " + str(moisture[0]) + "%", font=self.font, fill=255)
+        elif self.number_of_soilsensors == 2 :
+            self.draw.text((self.x, self.top),  "Soil: " + str(moisture[0]) + "% " + str(moisture[1]) + "%", font=self.font, fill=255)
+        elif self.number_of_soilsensors == 3 :
+            self.draw.text((self.x, self.top),  "Soil: " + str(moisture[0]) + " " + str(moisture[1]) + " " + str(moisture[2]) + "%", font=self.font, fill=255)
         self.draw.text((self.x, self.top+self.font_size),  "Tmp: "  + str(temperature) + " °C", font=self.font, fill=255)
         self.draw.text((self.x, self.top+2*self.font_size), "Humid: " + str(humidity) + "%", font=self.font, fill=255)
         
