@@ -24,8 +24,6 @@ counter = 0
 soil_moisture = [None] * number_of_soil_sensors
 
 while counter < SHUT_DOWN:
-    # camera is instanciated and deleted in loop to prevent leaks
-    camera = CameraClass() 
     counter = counter + 1
     tmp_and_humid = airSensor.getReading()
     for x in range(number_of_soil_sensors):
@@ -34,10 +32,12 @@ while counter < SHUT_DOWN:
     if counter % SAVE_DATAPOINT == 0:
         data.saveDatapoint(tmp_and_humid[0], tmp_and_humid[1], soil_moisture)
     if counter == SHUT_DOWN:
+        # camera is instanciated and deleted in loop to prevent leaks
+        camera = CameraClass() 
         camera.takePictureAndDeleteIfBlack()
-    
+        del camera
+        
     time.sleep(SLEEP_TIME)
-    del camera
     
 del oled
 
