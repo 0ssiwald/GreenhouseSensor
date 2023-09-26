@@ -1,16 +1,19 @@
 import Adafruit_DHT
 
 class AirSensor():
-    # change here from DHT11 to 22 if the senor changes
-    sensor = Adafruit_DHT.DHT22
-
     # connected to GPIO18.
-    pin = 18
+    PIN_NUMBER = 18
+    
+    def __init__(self):
+        # change here from DHT11 to 22 if the senor changes
+        self.sensor = Adafruit_DHT.DHT22
+
+    
 
     def getReading(self):
         # Try to grab a sensor reading.  Use the read_retry method which will retry up
         # to 15 times to get a sensor reading (waiting 2 seconds between each retry).
-        humidity, temperature = Adafruit_DHT.read_retry(self.sensor, self.pin)
+        humidity, temperature = Adafruit_DHT.read_retry(self.sensor, self.PIN_NUMBER)
 
         # Note that sometimes you won't get a reading and
         # the results will be null (because Linux can't

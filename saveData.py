@@ -6,13 +6,13 @@ class SaveData:
     def __init__(self, number_of_soilsensors):
         self.number_of_soilsensors = number_of_soilsensors
     
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(script_dir, "data.csv")
-    isExisting = os.path.exists(path)
-    csvFile = open(path, "a")
-    if isExisting == False:
-        csvFile.write("datetime, temperature[*C], humidity[%], soil_s1[%], soil_s2[%], soil_s3[%] \n")
-    csvFile.close()
+        self.script_dir = os.path.dirname(os.path.abspath(__file__))
+        self.path = os.path.join(self.script_dir, "data.csv")
+        self.isExisting = os.path.exists(self.path)
+        self.csvFile = open(self.path, "a")
+        if self.isExisting == False:
+            self.csvFile.write("datetime, temperature[*C], humidity[%], soil_s1[%], soil_s2[%], soil_s3[%] \n")
+        self.csvFile.close()
     
     def saveDatapoint(self, temperature, humidity, moisture):
     

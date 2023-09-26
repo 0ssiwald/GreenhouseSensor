@@ -10,21 +10,18 @@ class SoilSensor:
 
     def __init__(self, number_of_soilsensors):
         self.number_of_soilsensors = number_of_soilsensors
+        # Initialize the I2C interface
+        self.i2c = busio.I2C(board.SCL, board.SDA)
+        # Create an ADS1115 object
+        self.ads = ADS.ADS1115(self.i2c)
+        # Define the analog input channels
+        self.channels = [AnalogIn(self.ads, ADS.P0), AnalogIn(self.ads, ADS.P1), AnalogIn(self.ads, ADS.P2)]
     
-    # Initialize the I2C interface
-    i2c = busio.I2C(board.SCL, board.SDA)
- 
-    # Create an ADS1115 object
-    ads = ADS.ADS1115(i2c)
- 
-    # Define the analog input channels
-    channels = [AnalogIn(ads, ADS.P0), AnalogIn(ads, ADS.P1), AnalogIn(ads, ADS.P2)]
-    
-    #opens json to read max and min values
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    font_path = os.path.join(script_dir, "config.json")
-    with open(font_path) as json_data_file:
-        config_data = json.load(json_data_file)
+        #opens json to read max and min values
+        self.script_dir = os.path.dirname(os.path.abspath(__file__))
+        self.font_path = os.path.join(self.script_dir, "config.json")
+        with open(self.font_path) as json_data_file:
+            self.config_data = json.load(json_data_file)
     
     
     
@@ -42,13 +39,5 @@ class SoilSensor:
         else:
             return 0
     
-    
-#    def getPercentageReading(self):
- #       raw_value = self.channel.value
-  #      if raw_value is not None:
-   #         percentage_value = abs((raw_value-self.config_data["zero_saturation"])/(self.config_data["full_saturation"]-self.config_data["zero_saturation"]))*100
-    #        return round(percentage_value, 2)
-     #   else:
-      #      return 0
     
     
