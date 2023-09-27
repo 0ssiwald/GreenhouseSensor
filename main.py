@@ -11,10 +11,10 @@ number_of_soil_sensors = 3;
 # there is a bug were the pi crashes if the program runs for to long 
 SHUT_DOWN = 600
 # Defines how often a datapoint is saved in combination with SLEEP_TIME
-# if 100 -> every 10 min a datapoint gets saved
+# if 100 with SLEEP_TIME = 6.0 -> every 10 min a datapoint gets saved
 SAVE_DATAPOINT = 100
 # Change here how many sec the program sleeps
-SLEEP_TIME = 6.0
+SLEEP_TIME = 5.0
 
 oled = OledClass(number_of_soil_sensors)
 airSensor = AirSensor()

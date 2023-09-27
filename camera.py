@@ -12,7 +12,7 @@ class CameraClass():
     
     def takePicture(self):
         self.camera.start_preview()
-        self.camera.resolution = (2592, 1944)
+        self.camera.resolution = (1920, 1080) # biggest: (2592, 1944) but this creates memory issues with pi zero
         image_filename = self.script_dir + '/pictures/' + datetime.today().strftime('%Y_%m_%d__%H_%M') + '.jpg'
         self.camera.capture(image_filename)
         self.camera.stop_preview()
@@ -22,7 +22,6 @@ class CameraClass():
         # Load the image using Pillow
         img = Image.open(image_path)
         img_data = img.getdata()
-        total_pixels = img.width * img.height
         black_count = 0
 
         # Randomly sample a subset of pixels
