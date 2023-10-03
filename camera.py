@@ -6,7 +6,8 @@ import random
 
 class CameraClass():
 
-    def __init__(self):
+    def __init__(self, is_webserver_running):
+        self.is_webserver_running = is_webserver_running
         self.camera = PiCamera()
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
     
@@ -33,11 +34,24 @@ class CameraClass():
                 black_count += 1
 
         return (black_count / sample_size) > 0.9  # Adjust the threshold as needed
-
+    
+    def saveSymlinkToStaticFolder(self, last_image):
+        static_image_path = os.path.join(self.script_dir, "Webserver/static/newest_image.jpg")
+        pictures_path = os.path.join(self.script_dir, "/pictures/")
+        last_image_path = os.path.join(pictures_path, last_image)
+        
+        if os.path.exists(static_image_path):
+            os.remove(os.path.join(static_image_path))
+        os.symlink(last_image_path, static_image_path)
+        
+        
     def takePictureAndDeleteIfBlack(self):
         last_image = self.takePicture()
         if self.isMostlyBlack(last_image):
             os.remove(last_image)
+        else:
+            if self.is_webserver_running:
+                self.saveSymlinkToStaticFolder(last_image) # for the web server
             
     def __del__(self):
         self.camera.close()

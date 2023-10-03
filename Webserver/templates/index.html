@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Display</title>
+    <style>
+    /* Style for the data container */
+    .data-container {
+        display: flex; /* Use flexbox layout */
+        align-items: flex-start; 
+    }
+
+    /* Style for the image container */
+    .image-container {
+        margin-right: 20px; /* Add some space between the image and table */
+    }
+
+    /* Style for the image */
+    .image-container img {
+        max-width: 600px; /* Adjust the maximum width as needed */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    /* Style for the table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        text-align: center;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
+
+</head>
+
+<body>
+    <h1>Data Display</h1>
+    <div class="data-container">
+        <div class="image-container">
+            {% if newest_image %}
+            <img src="{{ url_for('static', filename=newest_image) }}" alt="Newest Image">
+            {% else %}
+            <p>No image available.</p>
+            {% endif %}
+        </div>
+        <table>
+            <tr>
+                <th>Date & Time</th>
+                <th>Temperature (°C)</th>
+                <th>Humidity (%)</th>
+                <th>Soil S1 (%)</th>
+                <th>Soil S2 (%)</th>
+                <th>Soil S3 (%)</th>
+            </tr>
+            {% for row in data %}
+            <tr>
+                <td>{{ row['datetime'] }}</td>
+                <td>{{ row[' temperature[*C]']|default('N/A') }}</td>
+                <td>{{ row[' humidity[%]']|default('N/A') }}</td>
+                <td>{{ row[' soil_s1[%]']|default('N/A') }}</td>
+                <td>{{ row[' soil_s2[%]']|default('N/A') }}</td>
+                <td>{{ row[' soil_s3[%]']|default('N/A') }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+
+</html>
+
+
