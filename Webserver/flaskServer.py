@@ -32,8 +32,10 @@ def display_data():
         data = list(last_10_rows)
 
     newest_image = "newest_image.jpg"
+    humid_and_tmp = "humid_and_tmp.jpg"
+    soil_moisture = "soil_moisture.jpg"
     
-    return render_template('index.html', data=data, newest_image=newest_image)
+    return render_template('index.html', data=data, newest_image=newest_image, humid_and_tmp=humid_and_tmp, soil_moisture=soil_moisture)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)

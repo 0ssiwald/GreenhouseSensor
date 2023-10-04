@@ -4,6 +4,7 @@ from airSensor import AirSensor
 from saveData import SaveData
 from soilSensor import SoilSensor
 from camera import CameraClass
+from dataGraphs import CreatePlots
 
 
 
@@ -16,7 +17,7 @@ SHUT_DOWN = 600
 # if 100 with SLEEP_TIME = 6.0 -> every 10 min a datapoint gets saved
 SAVE_DATAPOINT = 300
 # Change here how many sec the program sleeps
-SLEEP_TIME = 5.0
+SLEEP_TIME = 0.5
 # If the flusk webserver is runnig
 IS_WEBSERVER_RUNNING = True
 

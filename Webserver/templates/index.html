@@ -38,8 +38,23 @@
     tr:nth-child(even) {
         background-color: #f2f2f2;
     }
-</style>
+	
+	 /* Style for the new image container */
+    .additional-images {
+        display: flex;
+        margin-top: 20px; /* Add some space between the table and the additional images */
+    }
 
+    /* Style for each additional image */
+    .additional-image {
+        margin-right: 20px;
+    }
+
+    .additional-image img {
+        max-width: 800px; /* Adjust the maximum width as needed */
+        height: auto;
+    }
+    </style>
 </head>
 
 <body>
@@ -73,8 +88,17 @@
             {% endfor %}
         </table>
     </div>
+	
+	</div>
+    <div class="additional-images">
+        <div class="additional-image">
+            <img src="{{ url_for('static', filename='humid_and_tmp.jpg') }}" alt="Humidity and Temperature">
+        </div>
+        <div class="additional-image">
+            <img src="{{ url_for('static', filename='soil_moisture.jpg') }}" alt="Soil Moisture">
+        </div>
+    </div>
 </body>
-
 </html>
 
 

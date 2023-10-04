@@ -54,6 +54,7 @@ class CreatePlots:
         plt.grid()
         if number_of_soil_sensors > 1:
             plt.legend()
+        plt.tight_layout()
         # Save the plot to the specified output file
         plt.savefig(output_file, dpi=300)
         
@@ -63,5 +64,5 @@ class CreatePlots:
 # Example usage:
 if __name__ == "__main__":
     plotter = CreatePlots("data.csv")
-    plotter.makeHumidAndTmpPlot("Webserver/static/humid_and_tmp.jpg")
-    #plotter.makeSoilMoisturePlot("test2.jpg", 3)
+    plotter.makeHumidAndTmpPlot("test1.jpg")
+    plotter.makeSoilMoisturePlot("test2.jpg", 3)
