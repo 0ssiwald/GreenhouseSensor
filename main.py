@@ -9,7 +9,7 @@ from dataGraphs import CreatePlots
 
 
 # Change here to the number of connected soil sensors (1-3)
-NUMBER_OF_SOIL_SENSORS = 3;
+NUMBER_OF_SOIL_SENSORS = 1
 # Change here to change how long the program is running 
 # there is a bug were the pi crashes if the program runs for to long 
 SHUT_DOWN = 600
@@ -17,7 +17,7 @@ SHUT_DOWN = 600
 # if 100 with SLEEP_TIME = 6.0 -> every 10 min a datapoint gets saved
 SAVE_DATAPOINT = 300
 # Change here how many sec the program sleeps
-SLEEP_TIME = 0.5
+SLEEP_TIME = 2
 # If the flusk webserver is runnig
 IS_WEBSERVER_RUNNING = True
 
@@ -28,7 +28,7 @@ soilSensor = SoilSensor(NUMBER_OF_SOIL_SENSORS)
 counter = 0
 soil_moisture = [None] * NUMBER_OF_SOIL_SENSORS
 
-while counter < SHUT_DOWN:
+while True:#counter < SHUT_DOWN:
     counter = counter + 1
     tmp_and_humid = airSensor.getReading()
     

@@ -24,7 +24,7 @@ def calibrate_sensor(sensor_index):
     if baseline_check == 'y':
         for _ in range(10):
             value = chan[sensor_index].value
-            full_saturation_sum += value
+            zero_saturation_sum += value
             print(f"Raw: {value}\tVoltage: {chan[sensor_index].voltage:.3f}")
             time.sleep(0.5)
 
@@ -32,7 +32,7 @@ def calibrate_sensor(sensor_index):
     if water_check == 'y':
         for _ in range(10):
             value = chan[sensor_index].value
-            zero_saturation_sum += value
+            full_saturation_sum += value
             print(f"Raw: {value}\tVoltage: {chan[sensor_index].voltage:.3f}")
             time.sleep(0.5)
 
