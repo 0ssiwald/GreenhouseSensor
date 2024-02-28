@@ -6,18 +6,19 @@ import subprocess
 
 class CameraClass():
 
-    def __init__(self, is_webserver_running):
+    def __init__(self, is_webserver_running, in_debug_mode=False):
         self.is_webserver_running = is_webserver_running
+        self.in_debug_mode = in_debug_mode
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
 
     def takePicture(self):
         image_filename = os.path.join(self.script_dir, 'pictures', datetime.now().strftime('%Y_%m_%d__%H_%M') + '.jpg')
-        # Use libcamera-still to capture an image
-        cmd = ['libcamera-still', '-o', image_filename, '--nopreview', '-t', '1', '--width', '1920', '--height', '1080']
+        # Use libcamera-still to capture an image with higher JPEG quality and resolution
+        cmd = ['libcamera-jpeg', '-o', image_filename, '--nopreview'] #'--vflip'
         subprocess.run(cmd, check=True)
         return image_filename
 
-    def isMostlyBlack(self, image_path, threshold=10, sample_size=1000):
+    def isMostlyBlack(self, image_path, threshold=30, sample_size=1000): # Adjust the threshold for the black value 
         # Load the image using Pillow
         img = Image.open(image_path)
         img_data = img.getdata()
@@ -30,6 +31,11 @@ class CameraClass():
             r, g, b = pixel
             if r < threshold and g < threshold and b < threshold:
                 black_count += 1
+
+        if self.in_debug_mode:
+            print("Blackcount: ", black_count)
+            print("Sample size: ", sample_size)
+            print(black_count / sample_size)
 
         return (black_count / sample_size) > 0.9  # Adjust the threshold as needed
     
@@ -49,6 +55,10 @@ class CameraClass():
             if self.is_webserver_running:
                 self.saveSymlinkToStaticFolder(last_image) # for the web server
 
+
+if __name__ =="__main__":
+    camera = CameraClass(False, True)
+    camera.takePictureAndDeleteIfBlack()
 
 '''
 from picamera import PiCamera

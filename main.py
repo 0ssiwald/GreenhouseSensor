@@ -12,12 +12,12 @@ from dataGraphs import CreatePlots
 NUMBER_OF_SOIL_SENSORS = 1
 # Change here to change how long the program is running 
 # there is a bug were the pi crashes if the program runs for to long 
-SHUT_DOWN = 600
+SHUT_DOWN = 300
 # Defines how often a datapoint is saved in combination with SLEEP_TIME
 # if 100 with SLEEP_TIME = 6.0 -> every 10 min a datapoint gets saved
-SAVE_DATAPOINT = 300
+SAVE_DATAPOINT = 100
 # Change here how many sec the program sleeps
-SLEEP_TIME = 2
+SLEEP_TIME = 6
 # If the flusk webserver is runnig
 IS_WEBSERVER_RUNNING = True
 
@@ -49,6 +49,7 @@ while True:#counter < SHUT_DOWN:
         camera = CameraClass(IS_WEBSERVER_RUNNING) 
         camera.takePictureAndDeleteIfBlack()
         del camera
+        counter = 0  
         
     time.sleep(SLEEP_TIME)
     
