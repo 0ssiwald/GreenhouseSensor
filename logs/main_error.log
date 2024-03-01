@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "/home/pi/Desktop/Greenhouse/GreenhouseSensor/main.py", line 2, in <module>
-    from oled import OledClass
-  File "/home/pi/Desktop/Greenhouse/GreenhouseSensor/oled.py", line 2, in <module>
-    from board import SCL, SDA
-ModuleNotFoundError: No module named 'board'

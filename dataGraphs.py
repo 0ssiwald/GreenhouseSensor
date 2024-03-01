@@ -30,6 +30,7 @@ class CreatePlots:
         plt.tight_layout()
         # Save the plot to the specified output file
         plt.savefig(output_file, dpi=300)
+        plt.close()  # Close the figure
         
     def makeSoilMoisturePlot(self, output_file, number_of_soil_sensors):
         datetime = self.data["datetime"].values
@@ -57,12 +58,13 @@ class CreatePlots:
         plt.tight_layout()
         # Save the plot to the specified output file
         plt.savefig(output_file, dpi=300)
+        plt.close()  # Close the figure
         
     def __del__(self):
         del self.data  # Manually delete the DataFrame
 
 # Example usage:
 if __name__ == "__main__":
-    plotter = CreatePlots("data.csv")
+    plotter = CreatePlots("logs/sensor_data.csv")
     plotter.makeHumidAndTmpPlot("test1.jpg")
     plotter.makeSoilMoisturePlot("test2.jpg", 3)

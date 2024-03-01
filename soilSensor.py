@@ -19,7 +19,7 @@ class SoilSensor:
     
         #opens json to read max and min values
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
-        self.font_path = os.path.join(self.script_dir, "config.json")
+        self.font_path = os.path.join(self.script_dir, "soil_sensor_calibration/soil_sensor_config.json")
         with open(self.font_path) as json_data_file:
             self.config_data = json.load(json_data_file)
     

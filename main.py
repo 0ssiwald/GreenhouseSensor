@@ -1,9 +1,11 @@
 import time
+import copy
 from oled import OledClass
 from airSensor import AirSensor
 from saveData import SaveData
 from soilSensor import SoilSensor
 from camera import CameraClass
+from wateringPlants import wateringPlants
 from dataGraphs import CreatePlots
 
 
@@ -20,20 +22,25 @@ SAVE_DATAPOINT = 100
 SLEEP_TIME = 6
 # If the flusk webserver is runnig
 IS_WEBSERVER_RUNNING = True
+# Set true if the Watering system is connected to the pi
+IS_WATERING_SYSTEM_ACTIVE = False
 
 oled = OledClass(NUMBER_OF_SOIL_SENSORS)
 airSensor = AirSensor()
-data = SaveData("data.csv", NUMBER_OF_SOIL_SENSORS)
+data = SaveData("logs/sensor_data.csv", NUMBER_OF_SOIL_SENSORS)
 soilSensor = SoilSensor(NUMBER_OF_SOIL_SENSORS)
+wateringPlants = wateringPlants("logs/watering_events.csv", NUMBER_OF_SOIL_SENSORS)
 counter = 0
 soil_moisture = [None] * NUMBER_OF_SOIL_SENSORS
+previous_soil_moisture = [None] * NUMBER_OF_SOIL_SENSORS
 
 while True:#counter < SHUT_DOWN:
     counter = counter + 1
     tmp_and_humid = airSensor.getReading()
-    
+    previous_soil_moisture = copy.deepcopy(soil_moisture) #Copy is needed so that old_soil_moisture dont get updated when soil_moisture changes
     for x in range(NUMBER_OF_SOIL_SENSORS):
         soil_moisture[x] = soilSensor.getPercentageReading(x)
+    wateringPlants.testForManualWatering(previous_soil_moisture, soil_moisture)
     oled.printToScreen(tmp_and_humid[0], tmp_and_humid[1], soil_moisture)
     
     if counter % SAVE_DATAPOINT == 0:
@@ -42,10 +49,12 @@ while True:#counter < SHUT_DOWN:
     if counter == SHUT_DOWN:
      # camera and plotter are instanciated and deleted in loop to prevent leaks
         if IS_WEBSERVER_RUNNING:
-            plotter = CreatePlots("data.csv")
+            plotter = CreatePlots("logs/sensor_data.csv")
             plotter.makeHumidAndTmpPlot("Webserver/static/humid_and_tmp.jpg")
             plotter.makeSoilMoisturePlot("Webserver/static/soil_moisture.jpg", NUMBER_OF_SOIL_SENSORS)
             del plotter
+       # if IS_WATERING_SYSTEM_ACTIVE:
+         #   wateringPlants.testForWatering()
         camera = CameraClass(IS_WEBSERVER_RUNNING) 
         camera.takePictureAndDeleteIfBlack()
         del camera
