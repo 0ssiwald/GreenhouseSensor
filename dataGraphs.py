@@ -59,6 +59,24 @@ class CreatePlots:
         # Save the plot to the specified output file
         plt.savefig(output_file, dpi=300)
         plt.close()  # Close the figure
+
+    def makeVpdPlot(self, output_file):
+        datetime = self.data["datetime"].values
+        vpd = self.data[" vpd[kPa]"].values
+        
+        # Create a figure and plot the data
+        plt.figure(figsize=(10, 6))
+        
+        plt.plot(datetime, vpd, marker='o')
+        plt.xlabel("Date/Time")
+        plt.ylabel("VPD [kPa]")
+        # Title and legend
+        plt.title("VPD Over Time")
+        plt.grid()
+        plt.tight_layout()
+        # Save the plot to the specified output file
+        plt.savefig(output_file, dpi=300)
+        plt.close()  # Close the figure
         
     def __del__(self):
         del self.data  # Manually delete the DataFrame
@@ -66,5 +84,6 @@ class CreatePlots:
 # Example usage:
 if __name__ == "__main__":
     plotter = CreatePlots("logs/sensor_data.csv")
-    plotter.makeHumidAndTmpPlot("test1.jpg")
-    plotter.makeSoilMoisturePlot("test2.jpg", 3)
+    plotter.makeHumidAndTmpPlot("testTmpHunid.jpg")
+    plotter.makeSoilMoisturePlot("testMoisture.jpg", 3)
+    plotter.makeVpdPlot("testVpd.jpg")

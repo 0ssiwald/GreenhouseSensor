@@ -9,8 +9,8 @@ class OledClass:
     # Constants
     WIDTH = 128
     HEIGHT = 64
-    PADDING = -2
-    FONT_SIZE = 20
+    PADDING = -4
+    FONT_SIZE = 19
 
     def __init__(self, number_of_soilsensors):
         self.number_of_soilsensors = number_of_soilsensors
@@ -30,7 +30,7 @@ class OledClass:
         self.disp.image(self.image)
         self.disp.show()
 
-    def printToScreen(self, temperature, humidity, moisture):
+    def printToScreen(self, temperature, humidity, vpd, moisture):
         self.clear_display()
 
         if self.number_of_soilsensors < 1 or self.number_of_soilsensors > 3:
@@ -50,8 +50,8 @@ class OledClass:
             self.draw.text((0, self.PADDING),  "Soil: " + str(moisture[0]) + "% " + str(moisture[1]) + "%", font=self.font, fill=255)
         elif self.number_of_soilsensors == 3 :
             self.draw.text((0, self.PADDING),  "Soil: " + str(moisture[0]) + " " + str(moisture[1]) + " " + str(moisture[2]) + "%", font=self.font, fill=255)
-        self.draw.text((0, self.PADDING+self.FONT_SIZE),  "Tmp: "  + str(temperature) + " °C", font=self.font, fill=255)
-        self.draw.text((0, self.PADDING+2*self.FONT_SIZE), "Humid: " + str(humidity) + "%", font=self.font, fill=255)
+        self.draw.text((0, self.PADDING+self.FONT_SIZE),  "T: "  + str(temperature) + " °C" + " RH: " + str(humidity) + "%", font=self.font, fill=255)
+        self.draw.text((0, self.PADDING+2*self.FONT_SIZE), "VPD: " + str(vpd) + " kPa", font=self.font, fill=255)
         
         # Display image.
         self.disp.image(self.image)

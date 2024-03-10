@@ -9,3 +9,6 @@ __pycache__
 *.jpg
 .env/
 .venv/
+
+# exeption
+!vpd_reference.jpg

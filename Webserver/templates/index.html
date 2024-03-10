@@ -10,13 +10,13 @@
     }
 
     /* Style for the image container */
-    .image-container {
+    .foto-container {
         margin-right: 20px; /* Add some space between the image and table */
     }
 
     /* Style for the image */
-    .image-container img {
-        max-width: 600px; /* Adjust the maximum width as needed */
+    .foto-container img {
+        max-width: 800px; /* Adjust the maximum width as needed */
         height: auto; /* Maintain aspect ratio */
     }
 
@@ -40,19 +40,29 @@
     }
 	
 	 /* Style for the new image container */
-    .additional-images {
+    .graph-images {
         display: flex;
         margin-top: 20px; /* Add some space between the table and the additional images */
     }
 
     /* Style for each additional image */
-    .additional-image {
+    .graph-image {
         margin-right: 20px;
     }
 
-    .additional-image img {
-        max-width: 800px; /* Adjust the maximum width as needed */
+    .graph-image img {
+        max-width: 600px; /* Adjust the maximum width as needed */
         height: auto;
+    }
+
+    .vpdReference-container {
+        margin-right: 20px; /* Add some space between the image and table */
+    }
+
+    /* Style for the image */
+    .vpdReference-container img {
+        max-width: 1000px; /* Adjust the maximum width as needed */
+        height: auto; /* Maintain aspect ratio */
     }
     </style>
 </head>
@@ -60,7 +70,7 @@
 <body>
     <h1>Data Display</h1>
     <div class="data-container">
-        <div class="image-container">
+        <div class="foto-container">
             {% if newest_image %}
             <img src="{{ url_for('static', filename=newest_image) }}" alt="Newest Image">
             {% else %}
@@ -72,6 +82,7 @@
                 <th>Date & Time</th>
                 <th>Temperature (°C)</th>
                 <th>Humidity (%)</th>
+                <th>VPD (kPa)</th>
                 <th>Soil S1 (%)</th>
                 <th>Soil S2 (%)</th>
                 <th>Soil S3 (%)</th>
@@ -81,6 +92,7 @@
                 <td>{{ row['datetime'] }}</td>
                 <td>{{ row[' temperature[*C]']|default('N/A') }}</td>
                 <td>{{ row[' humidity[%]']|default('N/A') }}</td>
+                <td>{{ row[' vpd[kPa]']|default('N/A') }}</td>
                 <td>{{ row[' soil_s1[%]']|default('N/A') }}</td>
                 <td>{{ row[' soil_s2[%]']|default('N/A') }}</td>
                 <td>{{ row[' soil_s3[%]']|default('N/A') }}</td>
@@ -90,13 +102,35 @@
     </div>
 	
 	</div>
-    <div class="additional-images">
-        <div class="additional-image">
-            <img src="{{ url_for('static', filename='humid_and_tmp.jpg') }}" alt="Humidity and Temperature">
+    <div class="graph-images">
+        <div class="graph-image">
+            {% if humid_and_tmp %}
+                <img src="{{ url_for('static', filename=humid_and_tmp) }}" alt="Humidity and Temperature">
+            {% else %}
+                <p>No image available.</p>
+            {% endif %}
         </div>
-        <div class="additional-image">
-            <img src="{{ url_for('static', filename='soil_moisture.jpg') }}" alt="Soil Moisture">
+        <div class="graph-image">
+            {% if vpd %}
+                <img src="{{ url_for('static', filename=vpd) }}" alt="VPD">
+            {% else %}
+                <p>No image available.</p>
+            {% endif %}
         </div>
+        <div class="graph-image">
+            {% if soil_moisture %}
+                <img src="{{ url_for('static', filename=soil_moisture) }}" alt="Soil Moisture">
+            {% else %}
+                <p>No image available.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="vpdReference-container">
+        {% if newest_image %}
+        <img src="{{ url_for('static', filename='vpd_reference.jpg') }}" alt="VPd reference">
+        {% else %}
+        <p>No image available.</p>
+        {% endif %}
     </div>
 </body>
 </html>
