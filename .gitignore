@@ -1,7 +1,5 @@
-/pictures/
 __*
 __pycache__
-/Webserver/static/
 *.csv
 *.bak
 *.log
