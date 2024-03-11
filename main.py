@@ -14,7 +14,7 @@ from dataGraphs import CreatePlots
 NUMBER_OF_SOIL_SENSORS = 1
 # Change here to change how long the program is running 
 # there is a bug were the pi crashes if the program runs for to long 
-SHUT_DOWN = 1
+SHUT_DOWN = 300
 # Defines how often a datapoint is saved in combination with SLEEP_TIME
 # if 100 with SLEEP_TIME = 6.0 -> every 10 min a datapoint gets saved
 SAVE_DATAPOINT = 100
@@ -30,7 +30,6 @@ airSensor = AirSensor()
 data = SaveData("logs/sensor_data.csv", NUMBER_OF_SOIL_SENSORS)
 soilSensor = SoilSensor(NUMBER_OF_SOIL_SENSORS)
 waterPlants = wateringPlants("logs/watering_events.csv", NUMBER_OF_SOIL_SENSORS)
-plotter = CreatePlots("logs/sensor_data.csv")
 counter = 0
 soil_moisture = [None] * NUMBER_OF_SOIL_SENSORS
 previous_soil_moisture = [None] * NUMBER_OF_SOIL_SENSORS
@@ -50,9 +49,11 @@ while True:#counter < SHUT_DOWN:
     if counter == SHUT_DOWN:
      # camera and plotter are instanciated and deleted in loop to prevent leaks
         if IS_WEBSERVER_RUNNING:
+            plotter = CreatePlots("logs/sensor_data.csv")
             plotter.makeHumidAndTmpPlot("Webserver/static/humid_and_tmp.jpg")
             plotter.makeVpdPlot("Webserver/static/vpd.jpg")
             plotter.makeSoilMoisturePlot("Webserver/static/soil_moisture.jpg", NUMBER_OF_SOIL_SENSORS)
+            del plotter
 
        # if IS_WATERING_SYSTEM_ACTIVE:
          #   wateringPlants.testForWatering()

@@ -52,7 +52,7 @@ for x in range(num_of_sensors):
         "zero_saturation": zero_saturation_mean
     }
 
-with open('config.json', 'w') as outfile:
+with open('soil_sensor_config.json', 'w') as outfile:
     json.dump(calibration_data, outfile, indent=4)
 
 print('\nCalibration Complete')
